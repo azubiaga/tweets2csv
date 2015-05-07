@@ -80,7 +80,7 @@ elif 'search' in retrievaltype:
         resulttype = 'recent'
     else:
         resulttype = 'popular'
-    tweetsearch = tweepy.Cursor(api.search,q=",".join(eventquery),rpp=100,result_type="recent",include_entities=True).items()
+    tweetsearch = tweepy.Cursor(api.search,q=",".join(eventquery),rpp=100,result_type=resulttype,include_entities=True).items()
     tweetids = {}
     while True:
         try:
