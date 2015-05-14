@@ -5,6 +5,7 @@ import os
 import ConfigParser
 import time
 import csv
+import pprint
 
 class CustomStreamListener(tweepy.StreamListener):
     def on_status(selif, status):
@@ -22,6 +23,9 @@ class CustomStreamListener(tweepy.StreamListener):
                 csvvalues.append(status.__dict__[csvfield].encode('utf-8').replace('\n', '\\n'))
             else:
                 csvvalues.append(str(status.__dict__[csvfield]))
+
+        pprint.pprint(csvvalues)
+        sys.exit()
         csvf.writerow(csvvalues)
 
         print tweetcount, tweettext
@@ -80,7 +84,7 @@ elif 'search' in retrievaltype:
         resulttype = 'recent'
     else:
         resulttype = 'popular'
-    tweetsearch = tweepy.Cursor(api.search,q=",".join(eventquery),rpp=100,result_type=resulttype,include_entities=True).items()
+    tweetsearch = tweepy.Cursor(api.search,q=",".join(eventquery),rpp=100,result_type="recent",include_entities=True).items()
     tweetids = {}
     while True:
         try:
@@ -96,7 +100,7 @@ elif 'search' in retrievaltype:
                     csvvalues.append(tweet.__dict__[csvfield].encode('utf-8').replace('\n', '\\n'))
                 else:
                     csvvalues.append(str(tweet.__dict__[csvfield]))
-                csvf.writerow(csvvalues)
+            csvf.writerow(csvvalues)
 
         except tweepy.TweepError:
             print "Sleeping..."
