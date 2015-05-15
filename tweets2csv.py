@@ -14,8 +14,7 @@ class CustomStreamListener(tweepy.StreamListener):
         tweetid = status.id_str
         tweettext = status.text
 
-        f.write(json.dumps(status.json))
-        f.write('\n')
+        f.write(json.dumps(status.json) + '\n')
 
         csvvalues = []
         for csvfield in csvfields:
@@ -84,7 +83,7 @@ elif 'search' in retrievaltype:
         resulttype = 'recent'
     else:
         resulttype = 'popular'
-    tweetsearch = tweepy.Cursor(api.search,q=",".join(eventquery),rpp=100,result_type="recent",include_entities=True).items()
+    tweetsearch = tweepy.Cursor(api.search,q=",".join(eventquery),rpp=100,result_type=resulttype,include_entities=True).items()
     tweetids = {}
     while True:
         try:
@@ -92,7 +91,7 @@ elif 'search' in retrievaltype:
             tweetids[tweet.id_str] = 1
             print str("Recent: " + str(len(tweetids))) + " - " + ",".join(eventquery) + " - " + str(tweet.id_str)
 
-            f.write(json.dumps(tweet.json))
+            f.write(json.dumps(tweet.json) + '\n')
 
             csvvalues = []
             for csvfield in csvfields:
