@@ -65,6 +65,9 @@ api = tweepy.API(auth)
 
 tweetcount = 0
 
+if not os.path.exists('data'):
+    os.mkdir('data')
+
 if not os.path.exists(os.path.join('data', eventname)):
     os.mkdir(os.path.join('data', eventname))
     os.mkdir(os.path.join('data', eventname, 'csv'))
